@@ -29,9 +29,13 @@ jobs:
           echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" > ~/.bubblewrap/config.json
           echo "$KEYSTORE_B64" | base64 -d > android.keystore
           yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
-          yes | bubblewrap update --skipVersionUpgrade --manifest=./twa-manifest.json
-          yes | bubblewrap build --skipPwaValidation --manifest=./twa-manifest.json
+          set -o pipefail
+          (yes | bubblewrap update --skipVersionUpgrade --manifest=./twa-manifest.json && yes | bubblewrap build --skipPwaValidation --manifest=./twa-manifest.json) 2>&1 | tee build.log
           ls -la *.apk *.aab
+      - name: Report the error
+        if: failure()
+        run: |
+          tail -n 45 build.log | sed 's/\x1b\[[0-9;]*m//g' | grep -v '^\s*$' | while IFS= read -r l; do echo "::error::$l"; done
       - uses: actions/upload-artifact@v4
         with:
           name: daily-score-android

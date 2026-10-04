@@ -9,3 +9,7 @@ The Android app of **[Daily Score](https://github.com/jeremstyke/daily-score)**,
 Built as a Trusted Web Activity from the web version. No ads. Beta.
 
 by [@jeremstyke](https://t.me/jeremstyke)
+
+---
+
+🌐 **Website:** [dailyscoreapp.com](https://dailyscoreapp.com/?src=github_daily_score_android) · ▶ [Play on Telegram](https://t.me/DailyScorefootbot?start=src_github_daily_score_android)
